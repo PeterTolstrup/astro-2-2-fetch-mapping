@@ -6,17 +6,20 @@ import PageLayout from "../layouts/PageLayout.astro";
 
 const response = await fetch('https://dummyjson.com/products?limit=3');
 const data = await response.json();
+const products = data.products;
 
-console.log("data", data);
+console.log("products", products);
 ---
 
 <PageLayout title="Fetch Example" headline="An Example With Fetch" text="Soon you know">
   <section>
     <h2>Her kunne der være nogle cards</h2>
     <div class="cards">
-      <Card headline="Check det ud" text="Der er nok vigtigt" image="/images/image.png"/>
-      <Card headline="Her er også noget spændende" text="Med mere tekst" image="/images/image.png"/>
-      <Card headline="Lidt ekstra" text="Som bestemt er vigtigt" image="/images/image.png"/>
+      {
+        products.map((product) => {
+          return <Card headline={product.title} text={product.description} image={product.thumbnail}/>
+        })
+      }
     </div>
   </section>
   <BrandingSection headline="Her er en Branding Section" text="Med en eller anden punchline" />
@@ -30,7 +33,6 @@ console.log("data", data);
     </div>
   </section>
 </PageLayout>
-
 <style>
   section {
     padding: 10%;
